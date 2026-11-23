@@ -131,9 +131,60 @@ section[data-testid="stSidebar"] {background:#FFFFFF; border-right:1px solid #E6
   animation:fadeSlide .45s .08s ease both;}
 .foot {font-size:.75rem; color:#9AA3AF; margin-top:1.2rem;}
 
+/* 시작 인트로 */
+.intro-screen {
+  position:fixed; inset:0; z-index:99999;
+  display:flex; align-items:center; justify-content:center;
+  background:#EEF1F6;
+  pointer-events:none;
+  animation:introExit .7s 2.15s cubic-bezier(.65,0,.35,1) forwards;
+}
+.intro-inner {
+  text-align:center;
+  transform-origin:center;
+  animation:introInner 2.05s cubic-bezier(.22,.61,.36,1) both;
+}
+.intro-kicker {
+  font-size:.78rem; font-weight:800; letter-spacing:.32em;
+  color:#6B7280; margin-bottom:.8rem;
+  opacity:0; animation:introFadeUp .5s .12s ease forwards;
+}
+.intro-logo {
+  color:#1F2937; font-size:clamp(2.8rem,6vw,5.4rem);
+  font-weight:900; letter-spacing:-.07em; line-height:1;
+  opacity:0; transform:translateY(18px) scale(.96);
+  animation:introLogo .85s .32s cubic-bezier(.22,.61,.36,1) forwards;
+}
+.intro-logo span {color:#2EAD78;}
+.intro-line {
+  width:0; height:3px; border-radius:99px;
+  margin:1.35rem auto 0;
+  background:linear-gradient(90deg,#2EAD78,#5B8DEF);
+  animation:introLine .8s .95s cubic-bezier(.22,.61,.36,1) forwards;
+}
+
 @keyframes cardIn {
   from {opacity:0; transform:translateY(14px) scale(.985);}
   to {opacity:1; transform:translateY(0) scale(1);}
+}
+@keyframes introFadeUp {
+  from {opacity:0; transform:translateY(8px);}
+  to {opacity:1; transform:translateY(0);}
+}
+@keyframes introInner {
+  0% {opacity:0; transform:scale(.92);}
+  18% {opacity:1; transform:scale(1);}
+  72% {opacity:1; transform:scale(1);}
+  100% {opacity:1; transform:scale(.985);}
+}
+@keyframes introLogo {
+  to {opacity:1; transform:translateY(0) scale(1);}
+}
+@keyframes introLine {
+  to {width:min(260px,55vw);}
+}
+@keyframes introExit {
+  to {opacity:0; visibility:hidden; transform:scale(1.04);}
 }
 @keyframes fadeSlide {
   from {opacity:0; transform:translateY(8px);}
@@ -147,15 +198,33 @@ section[data-testid="stSidebar"] {background:#FFFFFF; border-right:1px solid #E6
 
 @media (prefers-reduced-motion: reduce) {
   [class*="st-key-card"], .ch, .ci, .pt, .pts, .tile, .stPlotlyChart,
-  [class*="st-key-nav_"] button, [class*="st-key-navon_"] button {
+  [class*="st-key-nav_"] button, [class*="st-key-navon_"] button,
+  .intro-screen, .intro-inner, .intro-kicker, .intro-logo, .intro-line {
     animation:none !important;
     transition:none !important;
   }
+  .intro-screen {display:none;}
 }
 </style>
 """,
     unsafe_allow_html=True,
 )
+
+st.session_state.setdefault("intro_seen", False)
+if not st.session_state["intro_seen"]:
+    st.markdown(
+        """
+<div class="intro-screen">
+  <div class="intro-inner">
+    <div class="intro-kicker">URL STRUCTURE ANALYSIS</div>
+    <div class="intro-logo">URL<span>·</span>SCAN</div>
+    <div class="intro-line"></div>
+  </div>
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+    st.session_state["intro_seen"] = True
 
 
 # ─────────────────────────────────────────────
