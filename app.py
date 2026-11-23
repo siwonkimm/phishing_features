@@ -59,19 +59,45 @@ section[data-testid="stSidebar"] {background:#FFFFFF; border-right:1px solid #E6
 .brand-sub {font-size:.8rem; color:#9AA3AF; margin-bottom:1.2rem;}
 [class*="st-key-nav_"] button, [class*="st-key-navon_"] button {
   width:100%; justify-content:flex-start; border:0; border-radius:10px;
-  padding:.55rem .8rem; background:transparent; box-shadow:none;}
+  padding:.55rem .8rem; background:transparent; box-shadow:none;
+  transition:background .2s ease, transform .2s ease;}
 [class*="st-key-nav_"] button p, [class*="st-key-navon_"] button p {
   text-align:left; font-weight:600; font-size:.95rem; color:#4B5563;}
 [class*="st-key-nav_"] button:hover {background:#F3F5F8;}
+[class*="st-key-nav_"] button:hover, [class*="st-key-navon_"] button:hover {transform:translateX(3px);}
 [class*="st-key-navon_"] button {background:#E6F6EE;}
 [class*="st-key-navon_"] button p {color:#1F9D68;}
 
 /* 카드 */
 [class*="st-key-card"] {background:#FFFFFF; border-radius:18px; padding:20px 22px;
-  box-shadow:0 1px 3px rgba(16,24,40,.06); height:100%;}
+  box-shadow:0 1px 3px rgba(16,24,40,.06); height:100%;
+  animation:cardIn .55s cubic-bezier(.22,.61,.36,1) both;
+  transition:transform .25s ease, box-shadow .25s ease;}
+[class*="st-key-card"]:hover {
+  transform:translateY(-3px);
+  box-shadow:0 10px 24px rgba(16,24,40,.10);}
+[class*="st-key-card"]:nth-of-type(2n) {animation-delay:.09s;}
+[class*="st-key-card"] [data-testid="stMarkdownContainer"] {
+  color:#374151;
+  font-size:.92rem;
+  line-height:1.75;
+}
+[class*="st-key-card"] [data-testid="stMarkdownContainer"] p,
+[class*="st-key-card"] [data-testid="stMarkdownContainer"] li {
+  color:#374151;
+  font-size:.92rem;
+  line-height:1.75;
+  opacity:1;
+}
+[class*="st-key-card"] [data-testid="stMarkdownContainer"] strong {
+  color:#1F2937;
+  font-weight:800;
+}
 .st-key-card_dash_e, .st-key-card_dash_f, .st-key-card_dash_g {min-height:330px;}
-.ch {display:flex; align-items:center; gap:10px; margin-bottom:.5rem;}
-.ci {width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1rem;}
+.ch {display:flex; align-items:center; gap:10px; margin-bottom:.5rem;
+  animation:fadeSlide .45s ease both;}
+.ci {width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1rem;
+  animation:iconPop .5s cubic-bezier(.34,1.56,.64,1) both;}
 .ct {font-size:1.08rem; font-weight:700; color:#1F2937; line-height:1.2;}
 .cs {font-size:.76rem; color:#9AA3AF; margin-top:2px;}
 
@@ -84,7 +110,11 @@ section[data-testid="stSidebar"] {background:#FFFFFF; border-right:1px solid #E6
 /* 수치 타일 */
 .tiles {display:grid; gap:10px;}
 .tiles2 {grid-template-columns:repeat(2,1fr);} .tiles4 {grid-template-columns:repeat(4,1fr);}
-.tile {background:#F5F7FA; border-radius:12px; padding:14px 16px;}
+.tile {background:#F5F7FA; border-radius:12px; padding:14px 16px;
+  animation:fadeSlide .45s ease both;
+  transition:transform .2s ease, background .2s ease;}
+.tile:hover {background:#EEF3FA; transform:translateY(-2px);}
+.stPlotlyChart {animation:fadeSlide .55s .05s ease both;}
 .tl {font-size:.78rem; color:#6B7280; margin-bottom:6px;}
 .tv {font-size:1.45rem; font-weight:700; color:#374151; letter-spacing:-0.5px;}
 .dot {display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px;}
@@ -95,9 +125,33 @@ section[data-testid="stSidebar"] {background:#FFFFFF; border-right:1px solid #E6
 .row:last-child {border-bottom:0;}
 .row b {color:#1F2937;} .row i {color:#9AA3AF; font-style:normal;}
 
-.pt {font-size:1.3rem; font-weight:800; color:#1F2937; margin:.2rem 0 .2rem;}
-.pts {font-size:.85rem; color:#9AA3AF; margin-bottom:1rem;}
+.pt {font-size:1.3rem; font-weight:800; color:#1F2937; margin:.2rem 0 .2rem;
+  animation:fadeSlide .45s ease both;}
+.pts {font-size:.85rem; color:#9AA3AF; margin-bottom:1rem;
+  animation:fadeSlide .45s .08s ease both;}
 .foot {font-size:.75rem; color:#9AA3AF; margin-top:1.2rem;}
+
+@keyframes cardIn {
+  from {opacity:0; transform:translateY(14px) scale(.985);}
+  to {opacity:1; transform:translateY(0) scale(1);}
+}
+@keyframes fadeSlide {
+  from {opacity:0; transform:translateY(8px);}
+  to {opacity:1; transform:translateY(0);}
+}
+@keyframes iconPop {
+  0% {opacity:0; transform:scale(.65) rotate(-8deg);}
+  70% {transform:scale(1.08) rotate(2deg);}
+  100% {opacity:1; transform:scale(1) rotate(0);}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="st-key-card"], .ch, .ci, .pt, .pts, .tile, .stPlotlyChart,
+  [class*="st-key-nav_"] button, [class*="st-key-navon_"] button {
+    animation:none !important;
+    transition:none !important;
+  }
+}
 </style>
 """,
     unsafe_allow_html=True,
